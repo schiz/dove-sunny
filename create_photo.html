@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <!--[if lt IE 9]>
+        <script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+  
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="js/slider/jquery.bxslider.css">
+</head>
+<body>
+    <!-- start mainarea -->
+    <div class="create_photo_bg"></div>
+    <div id="mainarea">       
+       <div class="slide create_photo">
+            <header class="slide_header">                
+                <ul class="photo_steps">
+                    <li>
+                        <div class="num">1</div>
+                        <div class="indent"></div>
+                        <h3>Создай</h3>
+                        <p>согревающий <br> мотиватор</p>
+                    </li>
+                    <li>
+                        <div class="num">2</div>
+                        <div class="indent"></div>
+                        <h3>Сохрани</h3>
+                        <p>его и загрузи <br> в конкурсный альбом</p>
+                    </li>
+                    <li>
+                        <div class="num">3</div>
+                        <div class="indent"></div>
+                        <h3>Собирай</h3>
+                        <p>лайки и получай <br> приз</p>
+                    </li>
+                </ul>
+            </header>
+            <div class="content_slide">
+                <div class="photo_control">
+                    <div class="text">Добавить <br> солнца</div>
+                    <div class="contol_buttons">
+                        <span class="p20 full">1</span>
+                        <span class="p40 ">2</span>
+                        <span class="p60 ">3</span>
+                        <span class="p80 ">4</span>
+                        <span class="p100 ">5</span>
+                    </div>
+                    <div class="ico"><img src="img/photo_control_ico.png" alt=""></div>
+                </div>
+            </div>
+            <div class="slide_wrap">
+                <div class="slide_item-body">
+                    <div class="dove-btn upload-photo-btn"><span>Загрузить <br> свое летнее <br> фото</span> <input id="photoupload" name="files[]" type="file" size="1" /></div>
+                    <div class="photo-wrap">
+                        <div class="photo-body">
+                            <div id="photo" class="photo-thumbnail">
+                                <img src="img/girl-photo.jpg" alt="your photo">
+                            </div>
+                            <div class="logo"></div>
+                            <textarea  rows="2" placeholder="Введи теплые и вдохновляющие слова"></textarea>
+                            <div class="dove-btn-orange"><span>Вернуть <br> лето</span></div>
+                        </div>
+
+                    </div>
+                    <div class="dove-btn save-btn"><span>Сохранить</span></div>
+                    
+                </div>
+            </div>
+       </div>
+    </div>
+    <!-- end mainarea -->
+    <div id="overlay">
+         <div class="save-motivator">Сохрани мотиватор<br> и загрузи его <br>в конкурсный альбом</div>
+        <div class="prize_container">
+            <h3>Главный<br> приз</h3>
+            <h4>Поездка<br> на Мальдивы</h4>
+            <p>на столько дней,<br> сколько было<br> пасмурных дней<br> в сентябре</p>
+        </div>
+        <div class="popup">
+            <div class="close"></div>
+            <p>Выбери одну из соц. сетей,<br> чтобы учавствовать в конкурсе</p>
+            <div class="social">
+                <a href="#" class="soc ok"></a>
+                <a href="#" class="soc vk"></a>              
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $(".close").click(function(){
+                $(this).parent().fadeOut();
+            }); 
+        })
+    </script>
+    
+    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+    <script src="js/vendor/jquery.ui.widget.js"></script>
+    <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+    <script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.min.js"></script>
+    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+    <script src="js/jquery.iframe-transport.js"></script>
+    <!-- The basic File Upload plugin -->
+    <script src="js/jquery.fileupload.js"></script>
+    <!-- The File Upload processing plugin -->
+    <script src="js/jquery.fileupload-process.js"></script>
+    <!-- The File Upload image preview & resize plugin -->
+    <script src="js/jquery.fileupload-image.js"></script>
+    <!-- The File Upload validation plugin -->
+    <script src="js/jquery.fileupload-validate.js"></script>
+    <script>
+    /*jslint unparam: true, regexp: true */
+    /*global window, $ */
+    $(function () {
+        'use strict';
+        // Change this to the location of your server-side upload handler:
+        var url = window.location.hostname === 'blueimp.github.io' ?
+                    '//jquery-file-upload.appspot.com/' : 'server/php/',
+            uploadButton = $('<button/>')
+                .addClass('btn btn-primary')
+                .prop('disabled', true)
+                .text('Processing...')
+                .on('click', function () {
+                    var $this = $(this),
+                        data = $this.data();
+                    $this
+                        .off('click')
+                        .text('Abort')
+                        .on('click', function () {
+                            $this.remove();
+                            data.abort();
+                        });
+                    data.submit().always(function () {
+                        $this.remove();
+                    });
+                });
+        $('#fileupload').fileupload({
+            url: url,
+            dataType: 'json',
+            autoUpload: false,
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            maxFileSize: 5000000, // 5 MB
+            // Enable image resizing, except for Android and Opera,
+            // which actually support image resizing, but fail to
+            // send Blob objects via XHR requests:
+            disableImageResize: /Android(?!.*Chrome)|Opera/
+                .test(window.navigator.userAgent),
+            previewMaxWidth: 100,
+            previewMaxHeight: 100,
+            previewCrop: true
+        }).on('fileuploadadd', function (e, data) {
+            data.context = $('<div/>').appendTo('#files');
+            $.each(data.files, function (index, file) {
+                var node = $('<p/>')
+                        .append($('<span/>').text(file.name));
+                if (!index) {
+                    node
+                        .append('<br>')
+                        .append(uploadButton.clone(true).data(data));
+                }
+                node.appendTo(data.context);
+            });
+        }).on('fileuploadprocessalways', function (e, data) {
+            var index = data.index,
+                file = data.files[index],
+                node = $(data.context.children()[index]);
+            if (file.preview) {
+                node
+                    .prepend('<br>')
+                    .prepend(file.preview);
+            }
+            if (file.error) {
+                node
+                    .append('<br>')
+                    .append($('<span class="text-danger"/>').text(file.error));
+            }
+            if (index + 1 === data.files.length) {
+                data.context.find('button')
+                    .text('Upload')
+                    .prop('disabled', !!data.files.error);
+            }
+        }).on('fileuploadprogressall', function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        }).on('fileuploaddone', function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                if (file.url) {
+                    var link = $('<a>')
+                        .attr('target', '_blank')
+                        .prop('href', file.url);
+                    $(data.context.children()[index])
+                        .wrap(link);
+                } else if (file.error) {
+                    var error = $('<span class="text-danger"/>').text(file.error);
+                    $(data.context.children()[index])
+                        .append('<br>')
+                        .append(error);
+                }
+            });
+        }).on('fileuploadfail', function (e, data) {
+            $.each(data.files, function (index, file) {
+                var error = $('<span class="text-danger"/>').text('File upload failed.');
+                $(data.context.children()[index])
+                    .append('<br>')
+                    .append(error);
+            });
+        }).prop('disabled', !$.support.fileInput)
+            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    });
+    </script>
+</body>
+</html>
