@@ -3,4 +3,4 @@
 * Front-end development of а landing page for Dove promo-site
 * Stack: HTML5, CSS3, JavaScript (jQuery)
 
-![alt text](https://github.com/schiz/dove-sunny/ishodnik.jpg "Dove-sunny markup")
+![alt text](https://github.com/schiz/dove-sunny/raw/master/ishodnik.jpg "Dove-sunny markup")
